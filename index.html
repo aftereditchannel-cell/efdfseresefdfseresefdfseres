@@ -1,289 +1,479 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ورود با گوگل</title>
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-body{
-  font-family:'Segoe UI';
-  background: radial-gradient(circle at 20% 20%, #1a0b3a, transparent 40%),
-              radial-gradient(circle at 80% 80%, #8b5cf6, transparent 40%),
-              linear-gradient(135deg,#020617,#0f172a,#020617);
-  min-height:100dvh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-}
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* overlay نور نرم */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:linear-gradient(120deg,rgba(139,92,246,.15),rgba(236,72,153,.1));
-  pointer-events:none;
-}
+    :root {
+      --bg:       #0f1117;
+      --surface:  #1a1d27;
+      --border:   #2a2d3a;
+      --accent:   #4f8ef7;
+      --accent-h: #6ba3ff;
+      --text:     #e8eaf0;
+      --muted:    #6b7280;
+      --success:  #34d399;
+      --radius:   14px;
+      --font:     'Vazirmatn', system-ui, sans-serif;
+    }
 
-/* کانتینر */
-.container{
-  width:100%;
-  max-width:400px;
-  padding:20px;
-}
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+    }
 
-/* گلس پیشرفته */
-.glass-box{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(30px);
-  border-radius:24px;
-  padding:30px 22px;
-  box-shadow:
-    0 20px 60px rgba(0,0,0,0.6),
-    inset 0 0 0 1px rgba(255,255,255,0.05);
-}
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100svh;
+      padding: 24px 16px;
+    }
 
-/* عنوان */
-h2{
-  color:#fff;
-  margin-bottom:25px;
-  text-align:center;
-  font-size:20px;
-}
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.45);
+    }
 
-/* فرم */
-.form-group{
-  margin-bottom:18px;
-}
+    .logo {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 20px;
+    }
 
-label{
-  color:#aaa;
-  font-size:12px;
-}
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
 
-/* اینپوت حرفه‌ای */
-input{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.05);
-  margin-top:6px;
-  background:rgba(255,255,255,0.04);
-  color:#fff;
-  transition:.25s;
-}
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: .875rem;
+      margin-top: 6px;
+      margin-bottom: 32px;
+    }
 
-input:focus{
-  outline:none;
-  border-color:#8b5cf6;
-  box-shadow:0 0 0 2px rgba(139,92,246,.25);
-  background:rgba(255,255,255,0.06);
-}
+    /* ── Google Button ── */
+    .btn-google {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 100%;
+      padding: 13px 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: #1a1a1a;
+      font-family: var(--font);
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, border-color .15s, transform .1s, box-shadow .15s;
+      text-decoration: none;
+    }
 
-/* گوگل */
-.google-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:13px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.9);
-  color:#111;
-  font-weight:600;
-  cursor:pointer;
-  margin-top:25px;
-  transition:.25s;
-}
+    .btn-google:hover {
+      background: #f5f5f5;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+      transform: translateY(-1px);
+    }
 
-.google-btn:hover{
-  transform:translateY(-2px);
-}
+    .btn-google:active {
+      transform: translateY(0);
+    }
 
-.google-btn img{
-  width:20px;
-}
+    .btn-google svg { flex-shrink: 0; }
 
-/* دکمه اصلی */
-.cta-btn{
-  width:100%;
-  margin-top:22px;
-  padding:15px;
-  border:none;
-  border-radius:16px;
-  background:linear-gradient(90deg,#8b5cf6,#ec4899,#22d3ee);
-  background-size:200% 200%;
-  color:#fff;
-  font-weight:bold;
-  font-size:15px;
-  cursor:pointer;
-  transition:.4s;
-  box-shadow:0 10px 35px rgba(139,92,246,.5);
-}
+    /* ── Status / loading ── */
+    #status {
+      margin-top: 20px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: .875rem;
+      display: none;
+    }
 
-.cta-btn:hover{
-  background-position:100% 0;
-  transform:translateY(-2px);
-  box-shadow:0 15px 40px rgba(236,72,153,.5);
-}
+    #status.loading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(79,142,247,.12);
+      border: 1px solid rgba(79,142,247,.25);
+      color: var(--accent-h);
+    }
 
-.cta-btn:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-  box-shadow:none;
-}
+    #status.error {
+      display: block;
+      background: rgba(239,68,68,.1);
+      border: 1px solid rgba(239,68,68,.25);
+      color: #f87171;
+    }
 
-/* لینک */
-.login-link{
-  text-align:center;
-  color:#a78bfa;
-  cursor:pointer;
-  margin-top:18px;
-  font-size:13px;
-}
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid rgba(79,142,247,.3);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      flex-shrink: 0;
+    }
 
-/* نور موس بهتر */
-.mouse-glow{
-  position:fixed;
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  pointer-events:none;
-  background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);
-  filter:blur(20px);
-  transform:translate(-50%,-50%);
-}
+    @keyframes spin { to { transform: rotate(360deg); } }
 
-/* پارتیکل نرم‌تر */
-.particle{
-  position:fixed;
-  width:5px;
-  height:5px;
-  background:linear-gradient(45deg,#8b5cf6,#22d3ee);
-  border-radius:50%;
-  opacity:.7;
-  animation:floatUp 7s linear infinite;
-}
+    /* ── User Info Card ── */
+    #user-info {
+      display: none;
+      margin-top: 0;
+    }
 
-@keyframes floatUp{
-  from{transform:translateY(0) scale(.8);opacity:0;}
-  20%{opacity:1;}
-  to{transform:translateY(-140px) scale(1.2);opacity:0;}
-}
+    #user-info.visible { display: block; }
 
-@media(max-width:480px){
-  .glass-box{
-    padding:22px 16px;
-  }
-}
-</style>
+    .user-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .avatar-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .user-name { font-size: 1.15rem; font-weight: 700; }
+    .user-email { font-size: .82rem; color: var(--muted); margin-top: 2px; }
+
+    .badge-verified {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--success);
+      background: rgba(52,211,153,.1);
+      border: 1px solid rgba(52,211,153,.25);
+      border-radius: 20px;
+      padding: 2px 8px;
+      margin-top: 4px;
+    }
+
+    /* ── Info rows ── */
+    .info-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .info-row {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .info-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .info-value {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--text);
+      word-break: break-all;
+    }
+
+    .info-value.mono {
+      font-size: .78rem;
+      font-family: 'Courier New', monospace;
+      color: var(--accent-h);
+    }
+
+    /* ── Sign out ── */
+    .btn-signout {
+      margin-top: 20px;
+      width: 100%;
+      padding: 11px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--font);
+      font-size: .875rem;
+      cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+
+    .btn-signout:hover {
+      border-color: #ef4444;
+      color: #f87171;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 28px 0;
+    }
+
+    .section-label {
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .card { padding: 28px 18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spinner { animation: none; }
+      .btn-google { transition: none; }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="card" id="login-card">
+  <div class="logo">⚡</div>
+  <h1>خوش آمدید</h1>
+  <p class="subtitle">برای ادامه با حساب گوگل خود وارد شوید</p>
 
-  <div class="glass-box">
+  <button class="btn-google" id="btn-signin" onclick="signInWithGoogle()">
+    <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.2l6.8-6.8C35.8 2.2 30.2 0 24 0 14.7 0 6.7 5.4 2.9 13.3l7.9 6.1C12.6 13.2 17.9 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.7c-.6 2.9-2.2 5.4-4.7 7.1l7.3 5.7c4.3-3.9 6.7-9.7 6.7-16.8z"/>
+      <path fill="#FBBC05" d="M10.8 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7.9-6.1A23.9 23.9 0 0 0 0 24c0 3.9.9 7.6 2.5 10.8l8.3-6.2z"/>
+      <path fill="#34A853" d="M24 48c6.2 0 11.4-2 15.2-5.5l-7.3-5.7c-2 1.4-4.6 2.2-7.9 2.2-6.1 0-11.4-3.7-13.2-9l-7.9 6.1C6.7 42.6 14.7 48 24 48z"/>
+    </svg>
+    ورود با گوگل
+  </button>
 
-    <h2>ثبت نام توی سالی چت</h2>
-
-    <div class="form-group">
-      <label>نام کاربریت چی بود؟</label>
-      <input id="user" placeholder="@Amir">
-    </div>
-
-    <div class="form-group">
-      <label>رمز عبورتم بزن لطفن</label>
-      <input id="pass" type="password">
-    </div>
-
-    <div class="google-btn" onclick="loginWithGoogle()">
-      <img src="https://www.svgrepo.com/show/475656/google-color.svg">
-      ثبت‌نام با گوگل
-    </div>
-
-    <button id="btn" class="cta-btn" disabled>ثبت‌نام</button>
-
-    <p class="login-link" onclick="location.href='SaliChat_SignUp_Final.html'">
-      قبلاً ثبت‌نام کردی؟ پس بزن روم
-    </p>
-
+  <div id="status">
+    <div class="spinner"></div>
+    <span>در حال انتقال به گوگل…</span>
   </div>
-
 </div>
 
-<script>
-// input validation
-const user = document.getElementById('user');
-const pass = document.getElementById('pass');
-const btn = document.getElementById('btn');
+<!-- User Info (shown after redirect result) -->
+<div class="card" id="user-info">
+  <div class="user-header">
+    <img id="user-avatar" class="avatar" src="" alt="تصویر پروفایل"
+         onerror="this.style.display='none'; document.getElementById('avatar-ph').style.display='flex';" />
+    <div id="avatar-ph" class="avatar-placeholder" style="display:none;"></div>
+    <div>
+      <div class="user-name" id="user-displayName">—</div>
+      <div class="user-email" id="user-email">—</div>
+      <div class="badge-verified">✓ احراز هویت شد</div>
+    </div>
+  </div>
 
-function check(){
-  btn.disabled = !(user.value.trim() && pass.value.trim());
-}
-user.addEventListener('input', check);
-pass.addEventListener('input', check);
+  <div class="divider"></div>
+  <div class="section-label">اطلاعات دریافتی از گوگل</div>
 
-// mouse glow
-const glow = document.createElement('div');
-glow.className = 'mouse-glow';
-document.body.appendChild(glow);
+  <div class="info-grid">
+    <div class="info-row">
+      <span class="info-label">نام کامل</span>
+      <span class="info-value" id="info-name">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">آدرس ایمیل</span>
+      <span class="info-value" id="info-email">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">شناسه کاربری (UID)</span>
+      <span class="info-value mono" id="info-uid">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">ارائه‌دهنده</span>
+      <span class="info-value" id="info-provider">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">ایمیل تأیید شده</span>
+      <span class="info-value" id="info-verified">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">تاریخ ایجاد حساب</span>
+      <span class="info-value" id="info-created">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">آخرین ورود</span>
+      <span class="info-value" id="info-lastlogin">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">توکن احراز هویت (خلاصه)</span>
+      <span class="info-value mono" id="info-token">—</span>
+    </div>
+  </div>
 
-document.addEventListener('mousemove', e=>{
-  glow.style.left = e.clientX + 'px';
-  glow.style.top = e.clientY + 'px';
-});
+  <button class="btn-signout" onclick="signOut()">خروج از حساب</button>
+</div>
 
-// particles
-setInterval(()=>{
-  const p = document.createElement('div');
-  p.className='particle';
-  p.style.left = Math.random()*window.innerWidth+'px';
-  p.style.top = window.innerHeight+'px';
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),6000);
-},200);
-
-// submit normal
-btn.addEventListener('click', ()=>{
-  if(!btn.disabled){
-    localStorage.setItem("login", true);
-    location.href = "home.html";
-  }
-});
-</script>
-
-<!-- Firebase -->
+<!-- Firebase SDK -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+  import { initializeApp }        from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithRedirect,
+    getRedirectResult,
+    onAuthStateChanged,
+    signOut as fbSignOut
+  } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBjGet-li1hqCmkd7OZkkv5e3GEJ_Zp18M",
-  authDomain: "salichattest.firebaseapp.com",
-  projectId: "salichattest",
-};
+  // ── Firebase config ──────────────────────────────────────────────
+  const firebaseConfig = {
+    apiKey:            "AIzaSyBjGet-li1hqCmkd7OZkkv5e3GEJ_Zp18M",
+    authDomain:        "salichattest.firebaseapp.com",
+    projectId:         "salichattest",
+    storageBucket:     "salichattest.firebasestorage.app",
+    messagingSenderId: "985509042175",
+    appId:             "1:985509042175:web:a29ce14b52956af7acb9ca"
+  };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+  const app      = initializeApp(firebaseConfig);
+  const auth     = getAuth(app);
+  const provider = new GoogleAuthProvider();
 
-window.loginWithGoogle = async function () {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
+  // ── Helpers ──────────────────────────────────────────────────────
+  function showUser(user) {
+    document.getElementById("login-card").style.display = "none";
 
-    localStorage.setItem("login", true);
-    location.href = "home.html";
+    // avatar
+    const avatarEl = document.getElementById("user-avatar");
+    const avatarPh = document.getElementById("avatar-ph");
+    if (user.photoURL) {
+      avatarEl.src = user.photoURL;
+      avatarEl.style.display = "block";
+    } else {
+      avatarPh.textContent = (user.displayName || user.email || "?")[0].toUpperCase();
+      avatarPh.style.display = "flex";
+    }
 
-  } catch (error) {
-    alert("خطا در ورود با گوگل");
+    document.getElementById("user-displayName").textContent = user.displayName || "—";
+    document.getElementById("user-email").textContent        = user.email      || "—";
+
+    // info rows
+    document.getElementById("info-name").textContent     = user.displayName || "—";
+    document.getElementById("info-email").textContent    = user.email       || "—";
+    document.getElementById("info-uid").textContent      = user.uid;
+    document.getElementById("info-verified").textContent = user.emailVerified ? "بله ✓" : "خیر";
+
+    const providers = user.providerData.map(p => p.providerId).join("، ");
+    document.getElementById("info-provider").textContent = providers || "google.com";
+
+    const meta = user.metadata;
+    document.getElementById("info-created").textContent =
+      meta.creationTime ? new Date(meta.creationTime).toLocaleString("fa-IR") : "—";
+    document.getElementById("info-lastlogin").textContent =
+      meta.lastSignInTime ? new Date(meta.lastSignInTime).toLocaleString("fa-IR") : "—";
+
+    // token (truncated)
+    user.getIdToken().then(token => {
+      document.getElementById("info-token").textContent =
+        token.slice(0, 28) + "…" + token.slice(-8);
+    });
+
+    document.getElementById("user-info").classList.add("visible");
   }
-};
-</script>
 
+  function showError(msg) {
+    const el = document.getElementById("status");
+    el.className = "error";
+    el.textContent = "خطا: " + msg;
+    el.style.display = "block";
+    document.getElementById("btn-signin").disabled = false;
+  }
+
+  // ── On load: check redirect result ───────────────────────────────
+  getRedirectResult(auth)
+    .then(result => {
+      if (result?.user) showUser(result.user);
+    })
+    .catch(err => {
+      if (err.code !== "auth/no-current-user") showError(err.message);
+    });
+
+  // ── Auth state (handles page reload while logged in) ─────────────
+  onAuthStateChanged(auth, user => {
+    if (user) showUser(user);
+  });
+
+  // ── Exposed to onclick attributes ────────────────────────────────
+  window.signInWithGoogle = () => {
+    const el = document.getElementById("status");
+    el.className = "loading";
+    el.innerHTML = '<div class="spinner"></div><span>در حال انتقال به گوگل…</span>';
+    el.style.display = "flex";
+    document.getElementById("btn-signin").disabled = true;
+    signInWithRedirect(auth, provider).catch(err => showError(err.message));
+  };
+
+  window.signOut = () => {
+    fbSignOut(auth).then(() => {
+      document.getElementById("user-info").classList.remove("visible");
+      document.getElementById("login-card").style.display = "block";
+      document.getElementById("status").style.display = "none";
+      document.getElementById("btn-signin").disabled = false;
+    });
+  };
+</script>
 </body>
 </html>
