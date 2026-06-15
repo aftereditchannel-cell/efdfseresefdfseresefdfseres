@@ -1,22 +1,231 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>sali chat</title>
-      <meta name="description" content="Connect, chat, and discover potential matches in a vibrant social networking app that blends messaging, dating, and social media features." />
-      <meta name="robots" content="noindex, nofollow" />
-      <style>html, body { height: 100%; margin: 0; } #root { height: 100%; }</style>
-      
-    </head>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    <body>
-      
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-      
-    </body>
-  </html>
-  
+body{
+  font-family:'Segoe UI';
+  background: radial-gradient(circle at 20% 20%, #1a0b3a, #0a0618 60%);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* نور */
+body::before, body::after{
+  content:'';
+  position:absolute;
+  width:500px;
+  height:500px;
+  filter:blur(120px);
+}
+body::before{
+  background:radial-gradient(circle,#8b5cf6,transparent 70%);
+  top:-100px; left:-100px;
+}
+body::after{
+  background:radial-gradient(circle,#ec4899,transparent 70%);
+  bottom:-120px; right:-100px;
+}
+
+.container{max-width:400px;width:100%;padding:20px;z-index:2;}
+
+.glass-box{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter:blur(30px);
+  border-radius:22px;
+  padding:30px 22px;
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+}
+
+h2{color:#fff;text-align:center;margin-bottom:25px;}
+
+.form-group{margin-bottom:18px;}
+label{color:#bbb;font-size:12px;}
+
+input{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.08);
+  margin-top:6px;
+  background:rgba(255,255,255,0.05);
+  color:#fff;
+}
+
+input:focus{
+  outline:none;
+  border:1px solid #8b5cf6;
+  box-shadow:0 0 15px rgba(139,92,246,0.5);
+}
+
+/* گوگل */
+.google-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:13px;
+  border-radius:14px;
+  background:#fff;
+  color:#333;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:25px;
+}
+.google-btn img{width:20px;}
+
+.cta-btn{
+  width:100%;
+  margin-top:22px;
+  padding:15px;
+  border:none;
+  border-radius:16px;
+  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+.cta-btn:disabled{opacity:.4;}
+
+.login-link{
+  text-align:center;
+  color:#c4b5fd;
+  margin-top:18px;
+  cursor:pointer;
+}
+
+/* موس */
+.mouse-glow{
+  position:fixed;
+  width:220px;height:220px;
+  border-radius:50%;
+  pointer-events:none;
+  background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);
+}
+
+/* پارتيکل */
+.particle{
+  position:fixed;
+  width:5px;height:5px;
+  background:#a78bfa;
+  border-radius:50%;
+  animation:floatUp 6s linear infinite;
+}
+@keyframes floatUp{
+  from{transform:translateY(0);opacity:0;}
+  20%{opacity:1;}
+  to{transform:translateY(-140px);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <div class="glass-box">
+
+    <h2>ثبت‌نام در سالی چت</h2>
+
+    <div class="form-group">
+      <label>نام کاربری</label>
+      <input id="user" placeholder="@Amir">
+    </div>
+
+    <div class="form-group">
+      <label>رمز عبور</label>
+      <input id="pass" type="password">
+    </div>
+
+    <div class="google-btn" onclick="loginWithGoogle()">
+      <img src="https://www.svgrepo.com/show/475656/google-color.svg">
+      ثبت‌نام با گوگل
+    </div>
+
+    <button id="btn" class="cta-btn" disabled>ثبت‌نام شو</button>
+
+    <p class="login-link">قبلاً ثبت‌نام کردی؟</p>
+
+  </div>
+</div>
+
+<!-- اسکریپت UI -->
+<script>
+const user=document.getElementById('user');
+const pass=document.getElementById('pass');
+const btn=document.getElementById('btn');
+
+function check(){
+  btn.disabled = !(user.value && pass.value);
+}
+user.addEventListener('input',check);
+pass.addEventListener('input',check);
+
+/* موس */
+const glow=document.createElement('div');
+glow.className='mouse-glow';
+document.body.appendChild(glow);
+
+document.addEventListener('mousemove',e=>{
+  glow.style.left=e.clientX+'px';
+  glow.style.top=e.clientY+'px';
+});
+
+/* پارتيکل */
+setInterval(()=>{
+  const p=document.createElement('div');
+  p.className='particle';
+  p.style.left=Math.random()*window.innerWidth+'px';
+  p.style.top=window.innerHeight+'px';
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+},180);
+
+btn.addEventListener('click', ()=>{
+  if(!btn.disabled){
+    localStorage.setItem("login", true);
+    location.href = "home.html";
+  }
+});
+</script>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "salichattest.firebaseapp.com",
+  projectId: "salichattest",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+window.loginWithGoogle = async function () {
+  try {
+    const result = await signInWithPopup(auth, provider);
+
+    console.log(result.user);
+
+    localStorage.setItem("login", true);
+    location.href = "home.html";
+
+  } catch (error) {
+    console.error(error);
+    alert("خطا در ورود با گوگل");
+  }
+};
+</script>
+
+</body>
+</html>
