@@ -4,8 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>ثبت نام - سالی چت</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 body{
   font-family:'Segoe UI';
@@ -17,38 +23,63 @@ body{
   overflow:hidden;
 }
 
-/* نور */
-body::before, body::after{
+/* نور پس زمینه */
+body::before{
   content:'';
   position:absolute;
   width:500px;
   height:500px;
+  background:radial-gradient(circle,#8b5cf6,transparent 70%);
+  top:-100px;
+  left:-100px;
   filter:blur(120px);
 }
-body::before{
-  background:radial-gradient(circle,#8b5cf6,transparent 70%);
-  top:-100px; left:-100px;
-}
+
 body::after{
+  content:'';
+  position:absolute;
+  width:500px;
+  height:500px;
   background:radial-gradient(circle,#ec4899,transparent 70%);
-  bottom:-120px; right:-100px;
+  bottom:-120px;
+  right:-100px;
+  filter:blur(120px);
 }
 
-.container{max-width:400px;width:100%;padding:20px;z-index:2;}
+.container{
+  width:100%;
+  max-width:400px;
+  padding:20px;
+  z-index:2;
+}
 
 .glass-box{
   background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(30px);
+  backdrop-filter:blur(30px) saturate(140%);
+  -webkit-backdrop-filter:blur(30px) saturate(140%);
   border-radius:22px;
   padding:30px 22px;
   border:1px solid rgba(255,255,255,0.12);
-  box-shadow:0 10px 40px rgba(0,0,0,0.5);
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.5),
+    inset 0 0 30px rgba(255,255,255,0.05);
 }
 
-h2{color:#fff;text-align:center;margin-bottom:25px;}
+h2{
+  color:#fff;
+  text-align:center;
+  margin-bottom:25px;
+  font-weight:600;
+}
 
-.form-group{margin-bottom:18px;}
-label{color:#bbb;font-size:12px;}
+.form-group{
+  margin-bottom:18px;
+}
+
+label{
+  color:#bbb;
+  font-size:12px;
+}
 
 input{
   width:100%;
@@ -58,15 +89,16 @@ input{
   margin-top:6px;
   background:rgba(255,255,255,0.05);
   color:#fff;
+  transition:0.25s;
 }
 
 input:focus{
   outline:none;
   border:1px solid #8b5cf6;
   box-shadow:0 0 15px rgba(139,92,246,0.5);
+  background:rgba(255,255,255,0.08);
 }
 
-/* گوگل */
 .google-btn{
   display:flex;
   align-items:center;
@@ -74,13 +106,22 @@ input:focus{
   gap:10px;
   padding:13px;
   border-radius:14px;
-  background:#fff;
+  background:rgba(255,255,255,0.9);
   color:#333;
   font-weight:600;
   cursor:pointer;
   margin-top:25px;
+  transition:.25s;
 }
-.google-btn img{width:20px;}
+
+.google-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.google-btn img{
+  width:20px;
+}
 
 .cta-btn{
   width:100%;
@@ -91,9 +132,15 @@ input:focus{
   background:linear-gradient(135deg,#8b5cf6,#ec4899);
   color:#fff;
   font-weight:bold;
+  font-size:15px;
   cursor:pointer;
+  transition:.25s;
 }
-.cta-btn:disabled{opacity:.4;}
+
+.cta-btn:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
 
 .login-link{
   text-align:center;
@@ -102,23 +149,27 @@ input:focus{
   cursor:pointer;
 }
 
-/* موس */
 .mouse-glow{
   position:fixed;
-  width:220px;height:220px;
+  width:220px;
+  height:220px;
   border-radius:50%;
   pointer-events:none;
   background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);
+  transform:translate(-50%,-50%);
+  z-index:1;
 }
 
-/* پارتيکل */
 .particle{
   position:fixed;
-  width:5px;height:5px;
+  width:5px;
+  height:5px;
   background:#a78bfa;
   border-radius:50%;
+  opacity:.7;
   animation:floatUp 6s linear infinite;
 }
+
 @keyframes floatUp{
   from{transform:translateY(0);opacity:0;}
   20%{opacity:1;}
@@ -149,45 +200,49 @@ input:focus{
       ثبت‌نام با گوگل
     </div>
 
-    <button id="btn" class="cta-btn" disabled>ثبت‌نام شو</button>
+    <button id="btn" class="cta-btn" disabled>ثبت‌نام</button>
 
-    <p class="login-link">قبلاً ثبت‌نام کردی؟</p>
+    <p class="login-link" onclick="location.href='login.html'">
+     قبلاً ثبت‌نام کردی؟ ورود
+    </p>
 
   </div>
 </div>
 
-<!-- اسکریپت UI -->
 <script>
-const user=document.getElementById('user');
-const pass=document.getElementById('pass');
-const btn=document.getElementById('btn');
+// inputs
+const user = document.getElementById('user');
+const pass = document.getElementById('pass');
+const btn = document.getElementById('btn');
 
+// validation
 function check(){
-  btn.disabled = !(user.value && pass.value);
+  btn.disabled = !(user.value.trim() && pass.value.trim());
 }
-user.addEventListener('input',check);
-pass.addEventListener('input',check);
+user.addEventListener('input', check);
+pass.addEventListener('input', check);
 
-/* موس */
-const glow=document.createElement('div');
-glow.className='mouse-glow';
+// mouse glow
+const glow = document.createElement('div');
+glow.className = 'mouse-glow';
 document.body.appendChild(glow);
 
-document.addEventListener('mousemove',e=>{
-  glow.style.left=e.clientX+'px';
-  glow.style.top=e.clientY+'px';
+document.addEventListener('mousemove', e=>{
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
 });
 
-/* پارتيکل */
+// particles
 setInterval(()=>{
-  const p=document.createElement('div');
+  const p = document.createElement('div');
   p.className='particle';
-  p.style.left=Math.random()*window.innerWidth+'px';
-  p.style.top=window.innerHeight+'px';
+  p.style.left = Math.random()*window.innerWidth+'px';
+  p.style.top = window.innerHeight+'px';
   document.body.appendChild(p);
   setTimeout(()=>p.remove(),6000);
-},180);
+},200);
 
+// submit
 btn.addEventListener('click', ()=>{
   if(!btn.disabled){
     localStorage.setItem("login", true);
@@ -202,7 +257,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebas
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSy...",
+  apiKey: "AIzaSyBjGet-li1hqCmkd7OZkkv5e3GEJ_Zp18M",
   authDomain: "salichattest.firebaseapp.com",
   projectId: "salichattest",
 };
@@ -214,8 +269,9 @@ const provider = new GoogleAuthProvider();
 window.loginWithGoogle = async function () {
   try {
     const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-    console.log(result.user);
+    console.log(user);
 
     localStorage.setItem("login", true);
     location.href = "home.html";
