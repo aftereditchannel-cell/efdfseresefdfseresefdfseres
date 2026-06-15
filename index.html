@@ -4,99 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ثبت نام  سالی چت</title>
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box;}
 
 body{
   font-family:'Segoe UI';
-  background: radial-gradient(circle at 20% 20%, #1a0b3a, #0a0618 60%);
-  min-height:100vh;
+  background: radial-gradient(circle at 20% 20%, #1e1b4b, transparent 40%),
+              radial-gradient(circle at 80% 80%, #0ea5e9, transparent 40%),
+              linear-gradient(135deg,#020617,#0f172a,#020617);
+  min-height:100dvh;
   display:flex;
   justify-content:center;
   align-items:center;
   overflow:hidden;
 }
 
-/* نور پس زمینه */
+/* overlay نور نرم */
 body::before{
-  content:'';
-  position:absolute;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle,#8b5cf6,transparent 70%);
-  top:-100px;
-  left:-100px;
-  filter:blur(120px);
+  content:"";
+  position:fixed;
+  inset:0;
+  background:linear-gradient(120deg,rgba(139,92,246,.15),rgba(236,72,153,.1));
+  pointer-events:none;
 }
 
-body::after{
-  content:'';
-  position:absolute;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle,#ec4899,transparent 70%);
-  bottom:-120px;
-  right:-100px;
-  filter:blur(120px);
-}
-
+/* کانتینر */
 .container{
   width:100%;
   max-width:400px;
   padding:20px;
-  z-index:2;
 }
 
+/* گلس پیشرفته */
 .glass-box{
   background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(30px) saturate(140%);
-  border-radius:22px;
+  backdrop-filter:blur(30px);
+  border-radius:24px;
   padding:30px 22px;
-  border:1px solid rgba(255,255,255,0.12);
   box-shadow:
-    0 10px 40px rgba(0,0,0,0.5),
-    inset 0 0 30px rgba(255,255,255,0.05);
+    0 20px 60px rgba(0,0,0,0.6),
+    inset 0 0 0 1px rgba(255,255,255,0.05);
 }
 
+/* عنوان */
 h2{
   color:#fff;
-  text-align:center;
   margin-bottom:25px;
-  font-weight:600;
+  text-align:center;
+  font-size:20px;
 }
 
+/* فرم */
 .form-group{
   margin-bottom:18px;
 }
 
 label{
-  color:#bbb;
+  color:#aaa;
   font-size:12px;
 }
 
+/* اینپوت حرفه‌ای */
 input{
   width:100%;
   padding:13px;
   border-radius:12px;
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.05);
   margin-top:6px;
-  background:rgba(255,255,255,0.05);
+  background:rgba(255,255,255,0.04);
   color:#fff;
-  transition:0.25s;
+  transition:.25s;
 }
 
 input:focus{
   outline:none;
-  border:1px solid #8b5cf6;
-  box-shadow:0 0 15px rgba(139,92,246,0.5);
+  border-color:#8b5cf6;
+  box-shadow:0 0 0 2px rgba(139,92,246,.25);
+  background:rgba(255,255,255,0.06);
 }
 
+/* گوگل */
 .google-btn{
   display:flex;
   align-items:center;
@@ -105,7 +92,7 @@ input:focus{
   padding:13px;
   border-radius:14px;
   background:rgba(255,255,255,0.9);
-  color:#333;
+  color:#111;
   font-weight:600;
   cursor:pointer;
   margin-top:25px;
@@ -114,60 +101,83 @@ input:focus{
 
 .google-btn:hover{
   transform:translateY(-2px);
-  box-shadow:0 10px 20px rgba(0,0,0,0.2);
 }
 
 .google-btn img{
   width:20px;
 }
 
+/* دکمه اصلی */
 .cta-btn{
   width:100%;
   margin-top:22px;
   padding:15px;
   border:none;
   border-radius:16px;
-  background:linear-gradient(135deg,#8b5cf6,#ec4899);
+  background:linear-gradient(90deg,#8b5cf6,#ec4899,#22d3ee);
+  background-size:200% 200%;
   color:#fff;
   font-weight:bold;
+  font-size:15px;
   cursor:pointer;
+  transition:.4s;
+  box-shadow:0 10px 35px rgba(139,92,246,.5);
+}
+
+.cta-btn:hover{
+  background-position:100% 0;
+  transform:translateY(-2px);
+  box-shadow:0 15px 40px rgba(236,72,153,.5);
 }
 
 .cta-btn:disabled{
   opacity:.4;
   cursor:not-allowed;
+  box-shadow:none;
 }
 
+/* لینک */
 .login-link{
   text-align:center;
-  color:#c4b5fd;
-  margin-top:18px;
+  color:#a78bfa;
   cursor:pointer;
+  margin-top:18px;
+  font-size:13px;
 }
 
+/* نور موس بهتر */
 .mouse-glow{
   position:fixed;
-  width:220px;
-  height:220px;
+  width:300px;
+  height:300px;
   border-radius:50%;
   pointer-events:none;
   background:radial-gradient(circle,rgba(139,92,246,.25),transparent 70%);
+  filter:blur(20px);
   transform:translate(-50%,-50%);
 }
 
+/* پارتیکل نرم‌تر */
 .particle{
   position:fixed;
   width:5px;
   height:5px;
-  background:#a78bfa;
+  background:linear-gradient(45deg,#8b5cf6,#22d3ee);
   border-radius:50%;
-  animation:floatUp 6s linear infinite;
+  opacity:.7;
+  animation:floatUp 7s linear infinite;
 }
 
 @keyframes floatUp{
-  from{transform:translateY(0);opacity:0;}
+  from{transform:translateY(0) scale(.8);opacity:0;}
   20%{opacity:1;}
-  to{transform:translateY(-140px);opacity:0;}
+  to{transform:translateY(-140px) scale(1.2);opacity:0;}
+}
+
+@media(max-width:480px){
+  .glass-box{
+    padding:22px 16px;
+  }
 }
 </style>
 </head>
@@ -175,17 +185,18 @@ input:focus{
 <body>
 
 <div class="container">
+
   <div class="glass-box">
 
-    <h2>ثبت‌نام در سالی چت</h2>
+    <h2>ثبت نام توی سالی چت</h2>
 
     <div class="form-group">
-      <label>نام کاربری</label>
+      <label>نام کاربریت چی بود؟</label>
       <input id="user" placeholder="@Amir">
     </div>
 
     <div class="form-group">
-      <label>رمز عبور</label>
+      <label>رمز عبورتم بزن لطفن</label>
       <input id="pass" type="password">
     </div>
 
@@ -196,11 +207,12 @@ input:focus{
 
     <button id="btn" class="cta-btn" disabled>ثبت‌نام</button>
 
-    <p class="login-link" onclick="location.href='login.html'">
-      قبلاً ثبت‌نام کردی؟ ورود
+    <p class="login-link" onclick="location.href='SaliChat_SignUp_Final.html'">
+      قبلاً ثبت‌نام کردی؟ پس بزن روم
     </p>
 
   </div>
+
 </div>
 
 <script>
